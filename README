@@ -1,0 +1,29 @@
+The project includes 3 program: mips_asm, mips_emulator and mips_emulator_forwarding.
+
+The mips_asm can translate the given mips assembly code to a simple format file. The file "code.asm" contains the instruction to be tested. Use the command bellow:
+
+#./mips_asm code.asm
+
+Then "code.bin" will be generate.
+
+mips_emulator is a simple mips pipeline emulator that can support several instructions. 
+mips_emulator_forwarding is an advanced version that use forwarding to reduce the stall cycles.
+
+To test the emulator, use the command bellow:
+
+#./mips_emulator < code.bin
+#./mips_emulator_singel < code.bin
+
+The output will be like this:
+"xxxth clock cycle ended!"
+PC=xx
+xxx, xxx, xxx, xxx
+r[0]=x ,r[1]=x ,r[2]=x ,r[3]=x ,r[4]=x ,r[5]=x ,r[6]=x ,r[7]=x ,r[8]=x ,r[9]=x
+
+(The 3rd line show the instructions in the registers between each stage, IF_ID, ID_EX, EX_MEM, MEM_WB)
+
+In my test data, the result of "BLTZ" branch instruction will only be false for 2 times. So the total instructions to be executed will be 4+7x20+2+1=147.
+
+For mips_emulator, 352 clocl cycles are needed. The CPI is 2.39.
+
+For mips_emulator_forwarding, 210 clocl cycles are needed. The CPI is 1.43.
